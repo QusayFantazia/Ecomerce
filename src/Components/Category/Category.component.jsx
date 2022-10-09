@@ -4,17 +4,32 @@ import { CategoriesContext } from "../../contexts/categories-context"
 import { useParams } from "react-router-dom"
 import ProductCard from "../product-card/product-card.component"
 
+import { categoriesMapSelector, loadingStatusSelector} from "../../store/categories/categories.selector"
+import { LOADING_STATUS } from "../../store/categories/categories.slice"
+import { useSelector } from "react-redux"
+
+import Spinner from "../spinner/spinner.component"
+
 const Category = () => {
+
+  console.log("rendering the category")
     const { category } = useParams();
-    const { categoriesMap } = useContext(CategoriesContext);
-    const [products, setProducts] = useState(categoriesMap[category]);
+    const categoriesMap  = useSelector(categoriesMapSelector)
+
+    const LoadingStatus = useSelector(loadingStatusSelector)
+
+    const [products, setProducts] = useState(categoriesMap ? categoriesMap[category] : null);
   
     useEffect(() => {
-      setProducts(categoriesMap[category]);
+      console.log("use effect is run ")
+      categoriesMap ? setProducts(categoriesMap[category]) : console.log("no categories yet");
     }, [category, categoriesMap]);
-  
+
     return (
-      <Fragment>
+
+      LoadingStatus == LOADING_STATUS.LOADING ?
+      <Spinner/> 
+      :(<Fragment>
           <h2> title</h2>
         <div className="Category-container">
           {products &&
@@ -22,7 +37,8 @@ const Category = () => {
               <ProductCard key={product.id} product={product} />
             ))}
         </div>
-      </Fragment>
+      </Fragment>)
+      
     );
   };
   

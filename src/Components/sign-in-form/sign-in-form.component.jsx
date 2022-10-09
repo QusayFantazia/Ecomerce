@@ -1,14 +1,18 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { StartSignInWithEmailAndPassword, StartSignInwithGoogle } from "../../store/user/user.Slice";
 import { SignInAuthUserWithEmailAndPassword, GooglesignInWithPopUp} from "../../utils/firebase/firebase"
 import  FormInput from  "../form-input/forminput.component"
 import "./sign-in-form.styles.scss"
 import {Button_Type_classes, Button} from "../button/button.component.jsx";
+
 const defaultFormFields = {
     email : "",
     password : "",
 }
 
 const SignInForm = () => {
+    const dispatch = useDispatch()
 
     const [formFields, setFormFields] = useState(defaultFormFields)
 
@@ -21,33 +25,37 @@ const SignInForm = () => {
     }
 
     const handelSubmit = async (event) => {
-       event.preventDefault();
+        event.preventDefault();
+        dispatch(StartSignInWithEmailAndPassword({email , password}))
 
-        try{
-            const {user} = await SignInAuthUserWithEmailAndPassword(email, password)
-        }
-        catch(error){
-            console.log(error)
-            switch(error.code){
-                case "auth/user-not-found":
-                    alert("The email you entered is not associated with a user")
-                    break;
-                case "auth/wrong-password":
-                    alert("Wrong password")
-                    break;
-                default:
-                    console.log("error while signning in the user", error.code)
+    //    event.preventDefault();
+
+    //     try{
+    //         const {user} = await SignInAuthUserWithEmailAndPassword(email, password)
+    //         console.log(user)
+    //     }
+    //     catch(error){
+    //         console.log(error)
+    //         switch(error.code){
+    //             case "auth/user-not-found":
+    //                 alert("The email you entered is not associated with a user")
+    //                 break;
+    //             case "auth/wrong-password":
+    //                 alert("Wrong password")
+    //                 break;
+    //             default:
+    //                 console.log("error while signning in the user", error.code)
              
-            }
-        }
+    //         }
+    //     }
 
-        setFormFields({ email: "", password: ""})
+    //     setFormFields({ email: "", password: ""})
         
 
         //create a user document
     }
     const handleGoogleSignInclick = () => {
-        GooglesignInWithPopUp()
+        dispatch(StartSignInwithGoogle())
     }
     return(
     <div className="sign-in-form">

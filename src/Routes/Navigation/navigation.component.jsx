@@ -1,23 +1,27 @@
-import { Fragment, useContext } from 'react';
-import { Outlet, Link } from 'react-router-dom';
-import { UserContext } from '../../contexts/user-context';
+import { Fragment } from 'react';
+import { Outlet } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';
-import { UserSignOut } from '../../utils/firebase/firebase';
-import { cartcontxt} from '../../contexts/shoppin-cart-context';
+import { useSelector } from 'react-redux';
 
 import ShoppingCart from '../../Components/shopping-cart/shpping-cart.component';
 import CartDropdown from '../../Components/cart-dropdown/cart-dropdown.component';
 import {NavigationDiv, LogoLink, LinksDiv, NavigationLink} from "./navigation.styles.jsx"
+import { signoutStart } from '../../store/user/user.Slice';
+
+import { resetCurrentUser } from '../../store/user/user.Slice';
 
 import './navigation.styles.jsx';
 
 const Navigation = () => {
-  const {currentUser} = useContext(UserContext)
-  
-  const {isCartOpen}  = useContext(cartcontxt)
+  const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.user.currentUser)
+
+  const isCartOpen = useSelector(state => state.cart.isCartOpen)
 
   const SignOutHandler = async () => {
-    await UserSignOut()
+    dispatch(signoutStart())
   }
   return (
     <Fragment>

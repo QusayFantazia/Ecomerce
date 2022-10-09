@@ -1,20 +1,20 @@
+import { useDispatch } from "react-redux"
+
+
+import { addItem, removeItem, clearItem } from "../../store/cart/cart.slice"
 import "./checkout-item.styles.scss"
-import { useContext } from "react"
-import { cartcontxt } from "../../contexts/shoppin-cart-context"
-import { removeItemToCart } from "../../contexts/shoppin-cart-context"
 const CheckoutItem = ({cartItem}) => {
-    const {name, quantity, price, imageUrl} = cartItem
-    const  {clearItemFromCart, addCartItems, removeCartItems} = useContext(cartcontxt)
+    
+    const dispatch = useDispatch()
+    const {name, imageUrl, quantity, price} = cartItem
     const HandleClearItem = () => {
-        clearItemFromCart(cartItem)
+        dispatch(clearItem(cartItem))
     }
     const HandleIncreaseItem = () => {
-        console.log("we are in handle increase")
-        addCartItems(cartItem)
+        dispatch(addItem(cartItem))
     }
     const HandleDecreaseItem = () => {
-        console.log("we are in handle decrease")
-        removeCartItems(cartItem)
+        dispatch(removeItem(cartItem))
     }   
     return(
         <div className="checkout-item-container">
@@ -28,9 +28,7 @@ const CheckoutItem = ({cartItem}) => {
                 <div className="arrow" onClick={HandleDecreaseItem}>&#10095;</div>
             </span>
             <span className="price">
-       
                 {price}
-              
             </span>
             <div className="remove-button" onClick={HandleClearItem}>&#10005;</div>
         </div>

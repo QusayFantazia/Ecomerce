@@ -4,7 +4,6 @@ const Directory = (props) => {
 
     const {imageUrl, title, routeName} = props.category
     const navigate = useNavigate(routeName)
-    console.log(routeName)
     const HandleNaviage = () => navigate(routeName)
 
 

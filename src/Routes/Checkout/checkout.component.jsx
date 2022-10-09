@@ -1,19 +1,16 @@
 
-import { UserContext } from "../../contexts/user-context"
-import { addItemToCart, cartcontxt } from "../../contexts/shoppin-cart-context"
-import { useContext } from "react"
+import { useSelector } from "react-redux"
 
+import PaymentForm from "./../../Components/payment-form/payment-form.component"
 import CheckoutItem from "../../Components/checkout-item/checkout-item.component"
+import { selectCartItems, selectCartTotal } from "../../store/cart/cart.selector"
+
+
 import "./checkout.styles.scss"
 const Checkout = () => {
-    const {cartItems, addCartItems, removeCartItems, cartTotal} = useContext(cartcontxt)
 
-    const additemFromCheckout = (item) => {
-        addCartItems(item)
-    }
-    const removeItemFromCheckout = (item) => {
-        removeCartItems(item)
-    }
+    const cartItems = useSelector(selectCartItems)
+    const cartTotal = useSelector(selectCartTotal)
 
  
 
@@ -46,6 +43,8 @@ const Checkout = () => {
                 }
             </div>
             <span>Total : {cartTotal}</span>
+
+            <PaymentForm/>
         </div>
     )
 }

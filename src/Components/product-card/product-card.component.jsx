@@ -3,11 +3,14 @@ import { useContext } from "react"
 import {Button, Button_Type_classes } from "../button/button.component"
 import "./product-card.styles.scss"
 import { cartcontxt } from "../../contexts/shoppin-cart-context"
+import { useDispatch } from "react-redux"
+import { addItem } from "../../store/cart/cart.slice"
 const ProductCard = ({product}) => {
     const {name, imageUrl, price} = product;
-    const {addCartItems} = useContext(cartcontxt)
+    const dispatch = useDispatch()
     const addItemToCart = () => {
-        addCartItems(product)
+        dispatch(addItem({...product} ))
+
     }
     return(
         <div className="product-card-container">
